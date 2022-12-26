@@ -16,19 +16,10 @@
 @stop
 @push('js')
 <script> 
-  var jData =  JSON.stringify({UserName: 'manager', Password: '1111', CompanyDB: 'SBODEMOAU'});
-      $.ajax({
-            // the URL for the request
-            url: "https://115.84.182.179:50000/b1s/v1/Login",
-
-            xhrFields: {
-                withCredentials: true
-            },
-            data: jData,
-            type: "POST",
-            dataType : "json",
-            success: function( json ) {
               $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic eyJDb21wYW55REIiOiAiU0JPREVNT0FVIiwiVXNlck5hbWUiOiAibWFuYWdlciIgfToxMTEx");
+                },
                 url:"https://115.84.182.179:50000/b1s/v1/BusinessPartners?$select=CurrentAccountBalance,Currency&$count=true&$filter=CardCode eq'{{auth()->user()->cardcode}}'",
                 xhrFields: {
                     withCredentials: true
@@ -53,15 +44,6 @@
               connected = false;
             },
         });
-
-        },
-        error: function( xhr, status, errorThrown ) {
-            console.log( "Error: " + errorThrown );
-            console.log( "Status: " + status );
-            console.dir( xhr );
-        }
-  
-});
 
     </script>
 @endpush   

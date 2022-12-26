@@ -106,7 +106,6 @@
 @section('js')
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-@vite(['resources/js/connect.js'])
 @stop
 @push('js')
 <script>
@@ -131,6 +130,9 @@
     loadata();
     function loadata(){
     $.ajax({
+        beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic eyJDb21wYW55REIiOiAiU0JPREVNT0FVIiwiVXNlck5hbWUiOiAibWFuYWdlciIgfToxMTEx");
+                },
             url:"https://115.84.182.179:50000/b1s/v1/BusinessPartners?$select=CardCode,CardName&$filter=CardType eq 'cCustomer'",
             xhrFields: {
                 withCredentials: true

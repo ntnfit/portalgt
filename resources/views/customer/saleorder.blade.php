@@ -77,25 +77,18 @@ function onBtExport() {
 }
 // setup the grid after the page has finished loading
 document.addEventListener('DOMContentLoaded', function () { 
+
   var gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, gridOptions);
-  var jData =  JSON.stringify({UserName: 'manager', Password: '1111', CompanyDB: 'SBODEMOAU'});
-      $.ajax({
-            // the URL for the request
-            url: "https://115.84.182.179:50000/b1s/v1/Login",
-
-            xhrFields: {
-                withCredentials: true
-            },
-            data: jData,
-            type: "POST",
-            dataType : "json",
-            success: function( json ) {
               $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic eyJDb21wYW55REIiOiAiU0JPREVNT0FVIiwiVXNlck5hbWUiOiAibWFuYWdlciIgfToxMTEx");
+                },
                 url:"https://115.84.182.179:50000/b1s/v1/Invoices?$select=DocNum,DocDate,DocTotal,DocCurrency&$count=true&$filter=CardCode eq '{{auth()->user()->cardcode}}'&$orderby= DocNum desc",
                 xhrFields: {
-                    withCredentials: true
+                    withCredentials: false
                 }, 
+                Authorization:"Basic eyJDb21wYW55REIiOiAiU0JPREVNT0FVIiwiVXNlck5hbWUiOiAibWFuYWdlciIgfToxMTEx",
             // whether this is a POST or GET request
             type: "get",
             // the type of data we expect back
@@ -117,14 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         });
 
-        },
-        error: function( xhr, status, errorThrown ) {
-            console.log( "Error: " + errorThrown );
-            console.log( "Status: " + status );
-            console.dir( xhr );
-        }
-  
-});
 });
     </script>
 @endpush   

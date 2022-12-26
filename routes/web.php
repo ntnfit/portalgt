@@ -18,14 +18,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
   
   
-Route::get('/', function () {
-    return view('welcome');
-});
+
   
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-  
+
 Route::group(['middleware' => ['auth','admin']], function() {
     
         Route::resource('roles', RoleController::class);
@@ -35,6 +32,11 @@ Route::group(['middleware' => ['auth','admin']], function() {
 });
 //client
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('/', function () {
+        return view('home');
+    });
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+  
     Route::get('/sale-report', function () {
         return view('customer.saleorder');
     })->name('customer.saleorder');
